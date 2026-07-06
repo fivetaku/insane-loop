@@ -1,0 +1,19 @@
+{
+  "name": "insane-loop",
+  "version": "0.1.0",
+  "description": "아이디어부터 완성까지 — gptaku 플러그인 파이프라인(인터뷰→PRD→골→검증→개선)을 문서 정의 완성(DoD)에 도달할 때까지 골로서 계속 돌리는 루프 오케스트레이터.",
+  "author": {
+    "name": "fivetaku",
+    "url": "https://github.com/fivetaku"
+  },
+  "keywords": [
+    "pipeline",
+    "loop",
+    "goal-driven",
+    "orchestration",
+    "prd",
+    "recovery",
+    "korean"
+  ],
+  "license": "MIT"
+}
