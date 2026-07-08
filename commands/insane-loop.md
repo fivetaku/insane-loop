@@ -50,7 +50,7 @@ $ARGUMENTS와 현재 디렉토리를 다음 순서로 감지해 진입 스테이
 
 ## 스테이지 A: 아이디어 → PRD
 
-- show-me-the-prd 설치됨 → `/show-me-the-prd {아이디어}`로 위임한다 (v0.6+ 선초안 흐름이 가정 원장까지 만들어준다). 완료 후 스테이지 B로.
+- show-me-the-prd 설치됨 → `/show-me-the-prd {아이디어}`로 위임한다 (v0.6+ 선초안 흐름이 가정 원장까지, v0.10+는 UI 기획일 때 `PRD/references/` 디자인 레퍼런스까지 만들어준다). 완료 후 스테이지 B로.
 - 미설치 → 설치 안내 한 줄 + 폴백: 기존 PRD 경로를 받거나, questioning-policy §6 선초안 방식으로 이 세션에서 직접 최소 PRD(목표/수용 기준/가정 원장)를 작성한다.
 
 ## 스테이지 B: PRD → 루프형 골 세팅
@@ -64,6 +64,7 @@ $ARGUMENTS와 현재 디렉토리를 다음 순서로 감지해 진입 스테이
    - PRD `## 가정 원장` → VALIDATION 검증 항목으로 반영 요청
    - 골 종료 조건(= DoD: VALIDATION 전체 통과 + blocking 가정 0) → goal-command·VALIDATION에 명시 요청
    - 리커버리 사다리 + 멈춤 원인 매핑 + 개선 회차 재진입 규칙 → RECOVERY에 반영 요청. 원문: Read `${CLAUDE_PLUGIN_ROOT}/skills/insane-loop/references/recovery-ladder.md`
+   - `PRD/references/`(디자인 레퍼런스)가 있으면 goaljaby v0.6+가 자동 승계한다(PLAN 참조 + VALIDATION 시각 검증). 별도 전달 불필요 — 단, 딥 리뷰어 투입 시 리뷰 컨텍스트에 스타일 방향(`sources.json`의 `query.style`) 한 줄을 포함한다.
 4. goaljaby Step 9 승인 게이트는 그대로 — 승인되면 goaljaby가 `/goal`을 발사하고 골이 시작된다. LOOP.md status를 `active`로.
 - goaljaby 미설치 → 설치 안내 + 폴백: recovery-ladder.md와 PRD로 이 세션에서 goal-command 초안을 직접 작성해 사용자 승인 후 `/goal` 발사.
 

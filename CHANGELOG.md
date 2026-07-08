@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2] - 2026-07-09
+
+### Changed — 디자인 레퍼런스 파이프라인 관통 명시
+
+- 스테이지 A: show-me-the-prd v0.10+가 UI 기획일 때 `PRD/references/`(디자인 레퍼런스)까지 생성함을 명시.
+- 스테이지 B: goaljaby v0.6+가 references/를 PLAN/VALIDATION으로 자동 승계하므로 별도 전달 불필요. 딥 리뷰어 투입 시에만 리뷰 컨텍스트에 스타일 방향(`sources.json` `query.style`) 한 줄 포함.
+
 ## [0.1.1] - 2026-07-07
 
 ### Changed — 질문 경계를 "골 시작"으로 명확화
