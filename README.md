@@ -28,6 +28,8 @@ insane-loop chains the gptaku pipeline — interview→PRD (`/show-me-the-prd`),
 /plugin install insane-loop
 ```
 
+Codex: `codex plugin marketplace add fivetaku/gptaku_plugins`, then `codex plugin add insane-loop@gptaku-plugins`.
+
 ### 3. Restart Claude Code
 
 ### 4. Run — from anywhere in the pipeline

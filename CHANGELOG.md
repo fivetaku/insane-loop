@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0] - 2026-11-23
+
+### Changed — Codex에서도 같은 스킬로 동작
+
+- 실행 절차(Turn 0, 스테이지 A/B/C, 완료 보고)를 명령 파일에서 `skills/insane-loop/SKILL.md`로 옮겼다. 명령은 첫 실행 설정과 "SKILL.md를 읽고 따른다"만 남은 얇은 진입점이다. 루프 설정 카드를 AskUserQuestion으로 실제로 띄우는 규칙은 SKILL.md에 그대로 있다.
+- `/insane-loop:tower` 절차를 `skills/tower/SKILL.md`로 옮겼다.
+- `skills/insane-loop/references/codex.md`를 추가했다: Codex 질문 도구 순서, 다른 스킬 호출, `create_goal`로 골 시작, 웹 보드 차이.
+
 ## [0.4.0] - 2026-11-23
 
 ### Changed — 공개 전환, gptaku-plugins 마켓 등록
