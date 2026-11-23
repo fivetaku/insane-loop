@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.1] - 2026-11-23
+
+### Fixed — show-me-the-prd 없이 시작할 때 방향 질문을 건너뛰던 문제
+
+- 스테이지 A 폴백이 플러그인에 없는 정책 파일(questioning-policy §6)을 가리키고 있어, 에이전트가 그 파일을 찾다 못 찾으면 결정을 기본값으로 채워 질문 없이 PRD를 쓰는 경우가 있었다(Codex 격리 실측 5회 중 2회). 폴백 순서를 SKILL.md에 직접 적었다: 방향 결정 카드 1콜(≤4문항)을 실제로 묻고 답을 기다림 → `PRD/01_PRD.md` 작성 → 남은 blocking 가정은 스테이지 B 카드에 합침. `references/stage-contracts.md`의 폴백 줄도 같게 고쳤다.
+
 ## [0.5.0] - 2026-11-23
 
 ### Changed — Codex에서도 같은 스킬로 동작
