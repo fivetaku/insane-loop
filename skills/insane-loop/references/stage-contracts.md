@@ -7,7 +7,7 @@
 | | 내용 |
 |---|---|
 | 입력 | 아이디어 텍스트 ($ARGUMENTS) |
-| 호출 | `/show-me-the-prd {아이디어}` — v0.6+ 선초안 흐름 그대로 |
+| 호출 | `/show-me-the-prd {아이디어}` — 선초안 흐름 그대로 (기준 v0.10.2) |
 | 출력 | `PRD/01_PRD.md`(말미 `## 가정 원장` 포함) ~ `04_PROJECT_SPEC.md`, `README.md` |
 | 폴백 | 미설치 시: 설치 안내 + 기존 PRD 경로 접수 또는 questioning-policy §6 방식으로 최소 PRD(목표/수용 기준/가정 원장) 직접 작성 |
 
@@ -17,10 +17,10 @@
 |---|---|
 | 입력 | PRD 디렉토리 경로 + LOOP.md(리뷰어 설정) |
 | 호출 | `/goaljaby {PRD 경로}` + 아래 컨텍스트를 호출 프롬프트에 포함 |
-| 전달 컨텍스트 | ⑴ "PRD의 `## 가정 원장` blocking 항목을 VALIDATION 검증 항목에 반영하라" ⑵ "골 종료 조건은 VALIDATION 전체 통과 + blocking 가정 0 — goal-command와 VALIDATION에 명시하라" ⑶ recovery-ladder.md 원문 — "RECOVERY에 이 사다리·멈춤 매핑·재진입 규칙을 반영하라" |
-| 게이트 | goaljaby Step 9 (사람 검토) — 우회 금지. 승인 시 goaljaby가 `/goal` 발사 |
-| 출력 | VALIDATION/RECOVERY/PLAN/PROGRESS/goal-command.md + 골 시작 |
-| 폴백 | 미설치 시: recovery-ladder.md + PRD로 goal-command 초안을 직접 작성, 사용자 승인 후 `/goal` |
+| 전달 컨텍스트 | ⑴ "PRD의 `## 가정 원장` blocking 항목을 VALIDATION 검증 항목에 반영하라" (원장 보존·승계는 goaljaby 0.6.3+ 기본 동작 — 따로 시키지 않는다) ⑵ "골 종료 조건은 VALIDATION 전체 통과 + blocking 가정 0 — goal-command와 VALIDATION에 명시하라" ⑶ recovery-ladder.md 원문 — "RECOVERY에 이 사다리·멈춤 매핑·재진입 규칙을 반영하라" |
+| 게이트 | goaljaby Step 9 (사람 검토) — 우회 금지. 승인 시 goaljaby가 응답 마지막 줄로 `/goal` 발사 → 0.8.0+는 훅이 턴 종료 시 자동 실행(재입력 없음). insane-loop는 그 줄 뒤에 아무것도 덧붙이지 않는다 |
+| 출력 | VALIDATION/RECOVERY/PLAN(0.7+: 마일스톤별 작업 체크리스트)/PROGRESS/goal-command.md + 골 시작. playmaker가 설치돼 있으면 `/goal` 시작과 함께 보드가 열린다 |
+| 폴백 | 미설치 시: recovery-ladder.md + PRD로 goal-command 초안을 직접 작성, 사용자 승인 후 `/goal` (자동 실행 훅 없음 — 사용자가 그 줄을 한 번 보낸다). goaljaby 0.8.0 미만이거나 훅 실패 토스트가 뜨면 같은 안내 |
 
 ## C. 골 내부 개선 회차 (insane-loop 자체 규칙)
 
@@ -28,7 +28,7 @@
 |---|---|
 | 검증 | VALIDATION.md 항목 실행 + LOOP.md의 blocking 가정 대조 → 실패/미확정 목록 |
 | 리뷰어 호출 | 실패 목록 + 가정 원장 + 관련 코드 경로를 컨텍스트로, 설정된 리뷰어를 있는 그대로 (reviewer-menu.md) |
-| 개선 적용 | 리뷰 결과에서 태스크 추출(요약 표시) → 적용 → PROGRESS.md·LOOP.md 갱신 |
+| 개선 적용 | 리뷰 결과에서 태스크 추출(요약 표시) → 적용 → PROGRESS.md·LOOP.md 갱신 + PLAN.md 작업 마커(`[>]`→`[x]`, 3단은 `[!]` — recovery-ladder.md §작업 마커) |
 | 판정 | DoD 충족→done / 미달→사다리 단계로 재진입 / 구조적 갭→gate_pending |
 
 ## D. 완료

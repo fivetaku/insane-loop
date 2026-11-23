@@ -62,7 +62,7 @@ idea ──▶ /show-me-the-prd ──▶ /goaljaby (+ loop-aware RECOVERY) ─�
 |---|---|---|
 | 1 Retry | single failure | fix with the same approach, re-verify |
 | 2 Change approach | same item fails 2 cycles | bring in the deep reviewer / adversarial self-review — different angle |
-| 3 Re-plan | 3 consecutive failures or structural gap | `gate_pending`: one direction question to the user, then re-enter |
+| 3 Re-plan | 3 consecutive failures or structural gap | `gate_pending`: stop the goal and mark the stuck task `[!]`; on re-entry, one direction question, then continue |
 
 Orchestration only: sub-plugins and reviewers are invoked **as-is** — no adapters, no forced output contracts, no gate bypassing (goaljaby's human-approval gate stays).
 
@@ -73,9 +73,22 @@ Chosen once at loop setup (only detected ones are offered), recorded in `LOOP.md
 | Reviewer | When | Notes |
 |---|---|---|
 | Self-review (default) | every cycle | zero cost — micro-loops must be cheap to run often |
-| insane-review | ladder step 2 / milestones | GPT-5.5 Pro cross-model diagnosis (ChatGPT Pro subscription) |
+| insane-review | ladder step 2 / milestones | cross-model diagnosis with the latest ChatGPT Pro model (ChatGPT Pro subscription, effort defaults to Pro) |
 | codex | ladder step 2 / milestones | Codex CLI cross-check |
 | gjc | ladder step 2 / milestones | gajae-code multi-model cross-check |
+| pumasi candidates | ladder step 2 | when the design direction is split, two outside workers write different approaches and one is picked |
+
+## Board — playmaker
+
+If [playmaker](https://github.com/fivetaku/playmaker) is installed, the goal board opens on its own when `/goal` starts. It shows task cards (PLAN.md `[ ]`/`[>]`/`[x]`/`[!]`) plus a loop line (round · checks x/y · ladder step · ⏸ waiting for your call), and cards can send 'answer the gate', 'retry with a new approach' and 'recheck DoD'. The tower is not offered in that case.
+
+## Tower
+
+```
+/insane-loop:tower
+```
+
+An MES-style live board that watches the files the loop leaves behind (LOOP.md, PRD/, goaljaby outputs) and renders the stage rail (A→D), round timeline, DoD gauge, and gate_pending banner in your browser (127.0.0.1) over SSE. Read-only and zero-dep — it observes the loop, never controls it. Multiple projects show up as separate cards. Demo: `node skills/insane-loop/scripts/simulate-loop.mjs`
 
 ## Outputs
 
@@ -85,8 +98,8 @@ Chosen once at loop setup (only detected ones are offered), recorded in `LOOP.md
 ## Requirements
 
 - Claude Code with `/goal` support
-- Soft dependencies (each stage falls back gracefully if missing): [show-me-the-prd](https://github.com/fivetaku/show-me-the-prd), [goaljaby](https://github.com/fivetaku/goaljaby)
-- Optional reviewers: insane-review (ChatGPT Pro), Codex CLI, gajae-code CLI
+- Soft dependencies (each stage falls back gracefully if missing): [show-me-the-prd](https://github.com/fivetaku/show-me-the-prd), [goaljaby](https://github.com/fivetaku/goaljaby), [playmaker](https://github.com/fivetaku/playmaker)
+- Optional reviewers: insane-review (ChatGPT Pro), pumasi (candidates), Codex CLI, gajae-code CLI
 
 ## License
 

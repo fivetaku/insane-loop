@@ -62,7 +62,7 @@ idea ──▶ /show-me-the-prd ──▶ /goaljaby (+ loop-aware RECOVERY) ─�
 |---|---|---|
 | 1 Reintentar | un fallo aislado | corregir con el mismo enfoque y volver a verificar |
 | 2 Cambiar de enfoque | el mismo ítem falla 2 ciclos | traer al revisor profundo / autorrevisión adversarial — otro ángulo |
-| 3 Replanificar | 3 fallos consecutivos o hueco estructural | `gate_pending`: una pregunta de dirección al usuario, y de vuelta al bucle |
+| 3 Replanificar | 3 fallos consecutivos o hueco estructural | `gate_pending`: se detiene el objetivo y la tarea atascada se marca `[!]`; al volver, una pregunta de dirección y se continúa |
 
 Solo orquestación: los subplugins y revisores se invocan **tal cual** — sin adaptadores, sin contratos de salida forzados, sin saltarse puertas (la puerta de aprobación humana de goaljaby se mantiene).
 
@@ -73,9 +73,22 @@ Se eligen una vez al preparar el bucle (solo se ofrecen los detectados) y quedan
 | Revisor | Cuándo | Notas |
 |---|---|---|
 | Autorrevisión (por defecto) | cada ciclo | coste cero — los microbucles tienen que ser baratos para correr a menudo |
-| insane-review | paso 2 de la escalera / hitos | diagnóstico cruzado con GPT-5.5 Pro (suscripción ChatGPT Pro) |
+| insane-review | paso 2 de la escalera / hitos | diagnóstico cruzado con el modelo más reciente de ChatGPT Pro (suscripción ChatGPT Pro, esfuerzo Pro por defecto) |
 | codex | paso 2 de la escalera / hitos | contraste cruzado con Codex CLI |
 | gjc | paso 2 de la escalera / hitos | contraste multimodelo con gajae-code |
+| candidatos de pumasi | paso 2 de la escalera | si la dirección de diseño está dividida, dos trabajadores externos escriben enfoques distintos y se elige uno |
+
+## Tablero — playmaker
+
+Si [playmaker](https://github.com/fivetaku/playmaker) está instalado, el tablero del objetivo se abre solo al empezar `/goal`. Muestra tarjetas de tareas (PLAN.md `[ ]`/`[>]`/`[x]`/`[!]`) y una línea del bucle (ronda · comprobaciones x/y · paso de la escalera · ⏸ esperando tu decisión), y desde las tarjetas puedes enviar 'responder al gate', 'reintentar con otro enfoque' y 'volver a evaluar el DoD'. En ese caso no se ofrece la torre de control.
+
+## Torre de control (tower)
+
+```
+/insane-loop:tower
+```
+
+Un panel en vivo estilo MES que vigila los archivos que deja el loop (LOOP.md, PRD/, artefactos de goaljaby) y muestra el riel de etapas (A→D), la línea de tiempo de rondas, el medidor de DoD y el banner de gate_pending en tu navegador (127.0.0.1) vía SSE. Solo lectura y sin dependencias — observa el loop, nunca lo controla. Varios proyectos aparecen como tarjetas separadas. Demo: `node skills/insane-loop/scripts/simulate-loop.mjs`
 
 ## Salidas
 
@@ -85,8 +98,8 @@ Se eligen una vez al preparar el bucle (solo se ofrecen los detectados) y quedan
 ## Requisitos
 
 - Claude Code con soporte de `/goal`
-- Dependencias blandas (cada etapa degrada con elegancia si falta): [show-me-the-prd](https://github.com/fivetaku/show-me-the-prd), [goaljaby](https://github.com/fivetaku/goaljaby)
-- Revisores opcionales: insane-review (ChatGPT Pro), Codex CLI, gajae-code CLI
+- Dependencias blandas (cada etapa degrada con elegancia si falta): [show-me-the-prd](https://github.com/fivetaku/show-me-the-prd), [goaljaby](https://github.com/fivetaku/goaljaby), [playmaker](https://github.com/fivetaku/playmaker)
+- Revisores opcionales: insane-review (ChatGPT Pro), pumasi (candidatos), Codex CLI, gajae-code CLI
 
 ## Licencia
 

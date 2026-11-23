@@ -62,7 +62,7 @@ idea ──▶ /show-me-the-prd ──▶ /goaljaby (+ loop-aware RECOVERY) ─�
 |---|---|---|
 | 1 リトライ | 単発の失敗 | 同じアプローチで修正して再検証 |
 | 2 アプローチ変更 | 同じ項目が 2 サイクル連続で失敗 | ディープレビュアー / 敵対的セルフレビューを投入 — 別の角度から |
-| 3 再計画 | 3 連続失敗、または構造的なギャップ | `gate_pending`：ユーザーへ方向性の質問を 1 つ投げてから再突入 |
+| 3 再計画 | 3 連続失敗、または構造的なギャップ | `gate_pending`：ゴールを止めて詰まったタスクを `[!]` にし、再突入時に方向性の質問を 1 つ投げてから続ける |
 
 やるのはオーケストレーションだけ：サブプラグインとレビュアーは**そのまま**呼び出します — アダプターなし、出力契約の強制なし、ゲートのバイパスなし（goaljaby の人間承認ゲートは維持）。
 
@@ -73,9 +73,22 @@ idea ──▶ /show-me-the-prd ──▶ /goaljaby (+ loop-aware RECOVERY) ─�
 | レビュアー | タイミング | 備考 |
 |---|---|---|
 | セルフレビュー（デフォルト） | 毎サイクル | コストゼロ — マイクロループは安くなければ頻繁に回せない |
-| insane-review | ラダーのステップ 2 / マイルストーン | GPT-5.5 Pro クロスモデル診断（ChatGPT Pro サブスクリプション） |
+| insane-review | ラダーのステップ 2 / マイルストーン | ChatGPT Pro の最新モデルでクロスモデル診断（ChatGPT Pro サブスクリプション、推論強度の既定は Pro） |
 | codex | ラダーのステップ 2 / マイルストーン | Codex CLI クロスチェック |
 | gjc | ラダーのステップ 2 / マイルストーン | gajae-code マルチモデルクロスチェック |
+| pumasi 候補競争 | ラダーのステップ 2 | 設計の方向が割れたとき、外部ワーカー 2 つが別々の案を書き、1 つを選ぶ |
+
+## ボード — playmaker
+
+[playmaker](https://github.com/fivetaku/playmaker) がインストールされていれば、`/goal` の開始と同時にゴールボードが自動で開きます。タスクカード（PLAN.md `[ ]`/`[>]`/`[x]`/`[!]`）とループ行（周回・検証 x/y・ラダー段階・⏸ 判断待ち）を表示し、カードから「gate に答える」「別の方法でやり直す」「DoD を再判定」を送れます。この場合、管制塔は提案しません。
+
+## 管制塔 (tower)
+
+```
+/insane-loop:tower
+```
+
+ループが残すファイル(LOOP.md・PRD/・goaljaby成果物)を監視し、工程レール(A→D)・ラウンドタイムライン・DoDゲージ・gate_pendingバナーをブラウザ(127.0.0.1)にSSEでリアルタイム表示するMES型ダッシュボード。読み取り専用・zero-dep — ループを制御せず、見守るだけ。複数プロジェクトはカードで分離表示。デモ: `node skills/insane-loop/scripts/simulate-loop.mjs`
 
 ## 成果物
 
@@ -85,8 +98,8 @@ idea ──▶ /show-me-the-prd ──▶ /goaljaby (+ loop-aware RECOVERY) ─�
 ## 要件
 
 - `/goal` をサポートする Claude Code
-- ソフト依存（欠けていても各ステージは適切にフォールバック）：[show-me-the-prd](https://github.com/fivetaku/show-me-the-prd)、[goaljaby](https://github.com/fivetaku/goaljaby)
-- オプションのレビュアー：insane-review（ChatGPT Pro）、Codex CLI、gajae-code CLI
+- ソフト依存（欠けていても各ステージは適切にフォールバック）：[show-me-the-prd](https://github.com/fivetaku/show-me-the-prd)、[goaljaby](https://github.com/fivetaku/goaljaby)、[playmaker](https://github.com/fivetaku/playmaker)
+- オプションのレビュアー：insane-review（ChatGPT Pro）、pumasi（候補競争）、Codex CLI、gajae-code CLI
 
 ## ライセンス
 

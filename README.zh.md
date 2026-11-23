@@ -62,7 +62,7 @@ idea ──▶ /show-me-the-prd ──▶ /goaljaby (+ loop-aware RECOVERY) ─�
 |---|---|---|
 | 1 重试 | 单次失败 | 沿用原方案修复，再验证 |
 | 2 更换打法 | 同一条目连续 2 轮失败 | 引入深度评审者 / 对抗式自评 — 换个角度 |
-| 3 重新规划 | 连续 3 次失败或存在结构性缺口 | `gate_pending`：向用户提一个方向性问题，然后重新进入循环 |
+| 3 重新规划 | 连续 3 次失败或存在结构性缺口 | `gate_pending`：暂停目标并把卡住的任务标为 `[!]`，重新进入时先问一个方向性问题再继续 |
 
 只做编排：子插件与评审者一律**原样**调用 — 不加适配器、不强加输出契约、不绕过关卡（goaljaby 的人工审批关卡保持不动）。
 
@@ -73,9 +73,22 @@ idea ──▶ /show-me-the-prd ──▶ /goaljaby (+ loop-aware RECOVERY) ─�
 | 评审者 | 时机 | 说明 |
 |---|---|---|
 | 自评（默认） | 每轮循环 | 零成本 — 微循环必须足够便宜才能高频运转 |
-| insane-review | 阶梯第 2 步 / 里程碑 | GPT-5.5 Pro 跨模型诊断（需 ChatGPT Pro 订阅） |
+| insane-review | 阶梯第 2 步 / 里程碑 | 用 ChatGPT Pro 最新模型做跨模型诊断（需 ChatGPT Pro 订阅，推理强度默认 Pro） |
 | codex | 阶梯第 2 步 / 里程碑 | Codex CLI 交叉核查 |
 | gjc | 阶梯第 2 步 / 里程碑 | gajae-code 多模型交叉核查 |
+| pumasi 候选竞争 | 阶梯第 2 步 | 设计方向有分歧时，两个外部工作者各写一个方案，再选出一个 |
+
+## 看板 — playmaker
+
+如果安装了 [playmaker](https://github.com/fivetaku/playmaker)，`/goal` 开始时会自动打开目标看板。它显示任务卡片（PLAN.md `[ ]`/`[>]`/`[x]`/`[!]`）和循环行（轮次 · 检查 x/y · 阶梯步骤 · ⏸ 等待你的判断），可以直接从卡片发送「回答 gate」「换个方法重试」「重新判定 DoD」。此时不再提议管制塔。
+
+## 管制塔 (tower)
+
+```
+/insane-loop:tower
+```
+
+一个 MES 风格的实时看板:监视循环留下的文件(LOOP.md、PRD/、goaljaby 产物),通过 SSE 在浏览器(127.0.0.1)实时展示工序轨道(A→D)、轮次时间线、DoD 仪表和 gate_pending 横幅。只读、零依赖 — 只观察循环,绝不控制它。多个项目以独立卡片分列。演示:`node skills/insane-loop/scripts/simulate-loop.mjs`
 
 ## 产出
 
@@ -85,8 +98,8 @@ idea ──▶ /show-me-the-prd ──▶ /goaljaby (+ loop-aware RECOVERY) ─�
 ## 环境要求
 
 - 支持 `/goal` 的 Claude Code
-- 软依赖（缺失时对应阶段会优雅回退）：[show-me-the-prd](https://github.com/fivetaku/show-me-the-prd)、[goaljaby](https://github.com/fivetaku/goaljaby)
-- 可选评审者：insane-review（ChatGPT Pro）、Codex CLI、gajae-code CLI
+- 软依赖（缺失时对应阶段会优雅回退）：[show-me-the-prd](https://github.com/fivetaku/show-me-the-prd)、[goaljaby](https://github.com/fivetaku/goaljaby)、[playmaker](https://github.com/fivetaku/playmaker)
+- 可选评审者：insane-review（ChatGPT Pro）、pumasi（候选竞争）、Codex CLI、gajae-code CLI
 
 ## 许可证
 

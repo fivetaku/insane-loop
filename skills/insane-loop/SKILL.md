@@ -6,7 +6,7 @@ description: >
   Definition of Done (all VALIDATION items pass AND zero blocking assumptions) is met. Never stops early:
   recovery ladder (retry→change approach with deep reviewer→re-plan gate) plus driven guard re-enter the
   loop whenever it stalls. Reviewers are selectable and invoked as-is: self-review (default) /
-  insane-review / codex / gjc. Korean triggers: "인세인 루프", "루프 돌려줘", "완성될 때까지 돌려",
+  insane-review / codex / gjc / pumasi (candidate competition). Uses playmaker as the live goal board when installed. Korean triggers: "인세인 루프", "루프 돌려줘", "완성될 때까지 돌려",
   "아이디어부터 완성까지", "파이프라인 돌려줘", "PRD부터 골까지". English triggers: "insane loop",
   "run the loop", "loop until done", "idea to done pipeline".
 ---
@@ -24,6 +24,19 @@ description: >
 
 실행 절차는 `commands/insane-loop.md`가 지시서다. 이 문서는 규칙 상세와 LOOP.md 포맷을 정의한다.
 
+## 보드 — playmaker (기본) / 관제탑 tower
+
+- **playmaker가 설치돼 있으면 그것이 기본 보드다.** `/goal` 시작과 함께 골 폴더의 작업 카드(PLAN.md 마커)와
+  LOOP.md 루프 줄(회차·검증 x/y·사다리 단계·⏸ 판단 대기)을 세션 안 pane(Paseo에서는 웹 탭)에 띄운다.
+  카드 행동('gate 답하기'·'접근 바꿔서 다시'·'DoD 다시 판정')은 세션에 지시문으로 들어온다 — 받은 지시는
+  이 문서의 사다리·재진입 규칙대로 처리한다. playmaker는 파일에 쓰지 않으므로 마커·LOOP.md 갱신은 루프가 한다.
+  이때 스테이지 B-4의 tower 제안은 하지 않는다.
+
+`/insane-loop:tower` — playmaker가 없을 때의 대체 보드이자, 여러 프로젝트 루프 모아 보기. LOOP.md·PRD·goaljaby 산출물을 감시해 공정 레일·회차·DoD·gate_pending을
+브라우저에서 실시간 표시하는 **읽기 전용** 상황판 (`skills/insane-loop/scripts/tower.mjs`, zero-dep).
+playmaker가 없을 때만 골 발사 직전 한 번 제안한다(지시서 스테이지 B-4). 머신당 1대가 여러 루프를 집계한다 — 프로젝트
+디렉토리가 다르면 겹치지 않는다. **같은 프로젝트에서 루프 동시 2개 금지** (LOOP.md 동시 쓰기 꼬임).
+
 ## 스테이지 계약
 
 Read `references/stage-contracts.md` — 스테이지별 입출력(경로·전달 컨텍스트 문구).
@@ -36,7 +49,8 @@ Read `references/reviewer-menu.md` — 감지·선택지 구성·호출 방법. 
 ## 리커버리 사다리 + 드리븐 가드
 
 Read `references/recovery-ladder.md` — goaljaby에 전달해 RECOVERY.md에 새겨지는 원문.
-요지: 1단 재시도 → 2단 접근 변경(딥 리뷰어) → 3단 재계획(사용자 게이트 `gate_pending`).
+요지: 1단 재시도 → 2단 접근 변경(딥 리뷰어, 설계 방향이 갈리면 pumasi 후보 경쟁) → 3단 재계획(사용자 게이트 `gate_pending` + 막힌 작업 PLAN.md `[!]`).
+작업 마커: 고치기 시작 `[>]`, 재검증 통과 `[x]`, 사람 판단 대기 `[!]` — 마커만 바꾸고 작업 문장은 건드리지 않는다(goaljaby 0.7+ 규칙).
 멈춤 원인 매핑: 같은 에러 반복→2단 강제 / 도구·환경 실패→기록 후 우회 / 모호→기본값+가정 원장
 기록 후 계속(질문 금지) / 완료 착각→검증 증거 요구. 정당한 멈춤 = DoD 충족 · gate_pending · 사용자 중단.
 
@@ -48,7 +62,7 @@ Read `references/recovery-ladder.md` — goaljaby에 전달해 RECOVERY.md에 �
 - status: active | gate_pending | done | stopped
 - dod: VALIDATION 전체 통과 + blocking 가정 0
 - prd: {PRD 경로} / validation: {VALIDATION.md 경로}
-- reviewer: self | insane-review | codex | gjc ({투입 시점: 사다리2단 | 마일스톤})
+- reviewer: self | insane-review | codex | gjc | pumasi ({투입 시점: 사다리2단 | 마일스톤}; insane-review는 사용자가 정한 추론 강도가 있으면 `effort=` 덧붙임)
 - redrive: none | loop
 - blocking_assumptions_remaining: [번호 목록 — PRD 가정 원장 참조]
 

@@ -62,7 +62,7 @@ insane-loop는 gptaku 파이프라인 — 인터뷰→PRD(`/show-me-the-prd`), �
 |---|---|---|
 | 1 재시도 | 단발 실패 | 같은 접근으로 수정 후 재검증 |
 | 2 접근 변경 | 같은 항목 2회차 연속 실패 | 딥 리뷰어 투입 / 반박 관점 셀프리뷰 — 다른 각도로 |
-| 3 재계획 | 3회 연속 실패 or 구조적 갭 | `gate_pending`: 사용자에게 방향 질문 1개 후 재진입 |
+| 3 재계획 | 3회 연속 실패 or 구조적 갭 | `gate_pending`: 골을 멈추고 막힌 작업을 `[!]`로 표시, 다시 들어올 때 방향 질문 1개 후 재진입 |
 
 오케스트레이션만 한다: 하위 플러그인과 리뷰어는 **있는 그대로** 호출 — 어댑터 없음, 출력 계약 강제 없음, 게이트 우회 없음(goaljaby 사람 승인 게이트 유지).
 
@@ -73,9 +73,22 @@ insane-loop는 gptaku 파이프라인 — 인터뷰→PRD(`/show-me-the-prd`), �
 | 리뷰어 | 투입 시점 | 비고 |
 |---|---|---|
 | 셀프리뷰 (기본) | 매 회차 | 비용 제로 — 미세 루프는 싸야 자주 돈다 |
-| insane-review | 사다리 2단 / 마일스톤 | GPT-5.5 Pro 교차진단 (ChatGPT Pro 구독) |
+| insane-review | 사다리 2단 / 마일스톤 | ChatGPT Pro 최신 모델 교차진단 (ChatGPT Pro 구독, 추론 강도 기본 Pro) |
 | codex | 사다리 2단 / 마일스톤 | Codex CLI 교차검토 |
 | gjc | 사다리 2단 / 마일스톤 | gajae-code 멀티모델 교차검토 |
+| pumasi 후보 경쟁 | 사다리 2단 | 설계 방향이 갈릴 때 외부 워커 2개가 다른 접근안을 쓰고 하나를 고른다 |
+
+## 보드 — playmaker
+
+[playmaker](https://github.com/fivetaku/playmaker)가 설치돼 있으면 `/goal` 시작과 함께 골 보드가 저절로 열린다. 작업 카드(PLAN.md `[ ]`/`[>]`/`[x]`/`[!]`)와 루프 줄(회차·검증 x/y·사다리 단계·⏸ 판단 대기)을 함께 보여 주고, 카드에서 'gate 답하기'·'접근 바꿔서 다시'·'DoD 다시 판정'을 바로 보낼 수 있다. 이때 관제탑은 따로 띄우지 않는다.
+
+## 관제탑 (tower)
+
+```
+/insane-loop:tower
+```
+
+루프가 남기는 파일(LOOP.md·PRD/·goaljaby 산출물)을 감시해 공정 레일(A→D)·회차 타임라인·DoD 게이지·gate_pending 배너를 브라우저(127.0.0.1)에서 실시간(SSE)으로 보여주는 MES식 상황판. 읽기 전용·zero-dep — 루프를 제어하지 않고 지켜보기만 한다. 여러 프로젝트의 루프는 카드로 분리 집계된다. 데모: `node skills/insane-loop/scripts/simulate-loop.mjs`
 
 ## 생성 파일
 
@@ -85,8 +98,8 @@ insane-loop는 gptaku 파이프라인 — 인터뷰→PRD(`/show-me-the-prd`), �
 ## 요구사항
 
 - `/goal`을 지원하는 Claude Code
-- 소프트 의존 (없으면 해당 스테이지만 폴백): [show-me-the-prd](https://github.com/fivetaku/show-me-the-prd), [goaljaby](https://github.com/fivetaku/goaljaby)
-- 선택 리뷰어: insane-review(ChatGPT Pro), Codex CLI, gajae-code CLI
+- 소프트 의존 (없으면 해당 스테이지만 폴백): [show-me-the-prd](https://github.com/fivetaku/show-me-the-prd), [goaljaby](https://github.com/fivetaku/goaljaby), [playmaker](https://github.com/fivetaku/playmaker)
+- 선택 리뷰어: insane-review(ChatGPT Pro), pumasi(후보 경쟁), Codex CLI, gajae-code CLI
 
 ## 라이선스
 
